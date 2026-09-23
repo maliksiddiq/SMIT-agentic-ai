@@ -18,6 +18,8 @@ from agents import (
     handoff,
 )
 
+# Main Content: This is a study buddy application that uses OpenAI's API to quiz students on various topics. It includes features for tracking student performance, providing remedial tutoring, and managing session flow.
+
 GEMINI_MODEL = "gemini-3.5-flash"
 GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
 
