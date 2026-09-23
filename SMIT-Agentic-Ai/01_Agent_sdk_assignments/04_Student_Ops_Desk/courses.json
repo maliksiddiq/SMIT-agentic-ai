@@ -1,0 +1,21 @@
+{
+  "courses": [
+    {
+      "id": "agentic-ai-w4",
+      "title": "Agentic AI - weekdays batch 4",
+      "schedule": "Mon-Thu, 7-9pm",
+      "policies": {
+        "late_submission": "48 hours, 20% penalty",
+        "attendance": "Students should attend scheduled live sessions."
+      },
+      "assignments": [
+        {
+          "id": "a3",
+          "title": "First coded agent",
+          "due": "2026-10-02"
+        }
+      ]
+    }
+  ]
+}
+
