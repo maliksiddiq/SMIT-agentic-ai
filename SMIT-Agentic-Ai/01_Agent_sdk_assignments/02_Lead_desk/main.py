@@ -24,6 +24,9 @@ from agents import (
     input_guardrail,
 )
 
+# Main application constants
+
+
 PROJECT_ROOT = Path(__file__).resolve().parent
 LEADS_PATH = PROJECT_ROOT / "leads.json"
 SAVED_PATH = PROJECT_ROOT / "saved.json"
