@@ -1,0 +1,97 @@
+=== Milestone 3: resolved system prompts (no model call) ===
+
+----- Sam -----
+You are Study Buddy, tutoring Sam, a beginner student.
+Ask one question at a time; wait for the answer, then grade it.
+You NEVER write or answer the quiz question yourself - always call question_writer (after fetching the topic notes), then grader, then record_answer.
+When you call question_writer, include the topic id AND the key facts from get_notes so the question is about the OpenAI Agents SDK.
+
+----- Lee -----
+You are Study Buddy, tutoring Lee, a intermediate student.
+Prioritize these weak topics: handoffs, guardrails.
+Ask one question at a time; wait for the answer, then grade it.
+You NEVER write or answer the quiz question yourself - always call question_writer (after fetching the topic notes), then grader, then record_answer.
+When you call question_writer, include the topic id AND the key facts from get_notes so the question is about the OpenAI Agents SDK.
+
+----- Ada -----
+You are Study Buddy, tutoring Ada, a intermediate student.
+tools: accuracy 80% - ask HARDER questions.
+Ask one question at a time; wait for the answer, then grade it.
+You NEVER write or answer the quiz question yourself - always call question_writer (after fetching the topic notes), then grader, then record_answer.
+When you call question_writer, include the topic id AND the key facts from get_notes so the question is about the OpenAI Agents SDK.
+
+=== Schemas (model-visible params) ===
+record_answer: {"properties": {"topic_id": {"title": "Topic Id", "type": "string"}, "was_correct": {"title": "Was Correct", "type": "boolean"}}, "required": ["topic_id", "was_correct"], "title": "record_answer_args", "type": "object", "additionalProperties": false}
+question_writer tool: {"description": "Default input schema for agent-as-tool calls.", "properties": {"input": {"title": "Input", "type": "string"}}, "required": ["input"], "title": "AgentAsToolInput", "type": "object", "additionalProperties": false}
+grader tool: {"description": "Default input schema for agent-as-tool calls.", "properties": {"input": {"title": "Input", "type": "string"}}, "required": ["input"], "title": "AgentAsToolInput", "type": "object", "additionalProperties": false}
+
+=== Tutor asks a question ===
+Traceback (most recent call last):
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\main.py", line 178, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python314\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python314\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python314\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\main.py", line 174, in main
+    await run_quiz("handoffs", "A handoff transfers control to another agent while keeping the conversation history.")
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\main.py", line 138, in run_quiz
+    r1 = await Runner.run(tutor, f"Quiz me on {topic_id}.", context=profile)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\agents\run.py", line 321, in run
+    return await runner.run(
+           ^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\agents\run.py", line 551, in run
+    return await self._run_impl(starting_agent, input, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\agents\run.py", line 1701, in _run_impl
+    turn_result = await model_task
+                  ^^^^^^^^^^^^^^^^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\agents\run_internal\run_loop.py", line 2431, in run_single_turn
+    new_response = await get_new_response(
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<16 lines>...
+    )
+    ^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\agents\run_internal\run_loop.py", line 2585, in get_new_response
+    new_response = await get_response_with_retry(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<23 lines>...
+    )
+    ^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\agents\run_internal\model_retry.py", line 612, in get_response_with_retry
+    response = await _await_model_attempt(get_response(), timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\agents\run_internal\model_retry.py", line 296, in _await_model_attempt
+    return await awaitable
+           ^^^^^^^^^^^^^^^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\agents\models\openai_chatcompletions.py", line 249, in get_response
+    response = await self._fetch_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\agents\models\openai_chatcompletions.py", line 734, in _fetch_response
+    ret = await self._get_client().chat.completions.create(**create_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\openai\resources\chat\completions\completions.py", line 2907, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+    ...<55 lines>...
+    )
+    ^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\openai\_base_client.py", line 1979, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SMIT-Agentic-Ai\SMIT-Agentic-Ai\Assignments\study-buddy\.venv\Lib\site-packages\openai\_base_client.py", line 1764, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.5-flash\nPlease retry in 31.7145255s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-3.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '31s'}]}}]

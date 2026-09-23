@@ -1,0 +1,32 @@
+[
+  {
+    "id": "lead-001",
+    "message": "I need a Python automation script for monthly sales reports. Budget is PKR 180,000 and I would like delivery within two weeks.",
+    "platform": "Upwork"
+  },
+  {
+    "id": "lead-002",
+    "message": "I cannot pay upfront, but I can offer 20% of revenue from the app forever if you build the MVP this month.",
+    "platform": "Fiverr"
+  },
+  {
+    "id": "lead-003",
+    "message": "Hi, can you help me with a website? Let me know.",
+    "platform": "Upwork"
+  },
+  {
+    "id": "lead-004",
+    "message": "Our checkout is broken and sales stop today. Can you fix the Shopify integration within 24 hours? Budget is PKR 45,000.",
+    "platform": "Upwork"
+  },
+  {
+    "id": "lead-005",
+    "message": "Please change the heading color on one landing page. It should take 20 minutes. I can pay PKR 1,000.",
+    "platform": "Fiverr"
+  },
+  {
+    "id": "lead-006",
+    "message": "I need a complete mobile app by tomorrow morning. Do not ask for extensions; missing the deadline is unacceptable. Budget is PKR 25,000.",
+    "platform": "Upwork"
+  }
+]

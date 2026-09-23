@@ -1,0 +1,16 @@
+[project]
+name = "lead-desk"
+version = "0.1.0"
+description = "Lead Desk practical test implementation for Tasks 0-3"
+authors = [
+    { name = "maliksiddiq", email = "maliksiddiqawan21@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "openai-agents>=0.22.0",
+    "python-dotenv>=1.2.3",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "agents",
+    "title": "Agents",
+    "summary": "An Agent is a self-contained unit that combines a model, instructions, and a set of tools to accomplish a task. You define an Agent with a name and instructions, then attach tools, handoffs, guardrails, and model settings. Agents are the core building block of the OpenAI Agents SDK and can call other agents or tools autonomously.",
+    "key_facts": [
+      "An Agent holds its own model, instructions, tools, handoffs, and guardrails configuration.",
+      "Agents are stateless definitions; the Runner drives their execution and produces a result."
+    ]
+  },
+  {
+    "id": "runner",
+    "title": "Runner",
+    "summary": "The Runner is responsible for executing an Agent loop: it sends input to the model, processes the response, and runs any tool calls or handoffs until the agent finishes. You invoke it with Runner.run() for a full result or Runner.run_streamed() for incremental output. The Runner also manages tracing and output type coercion.",
+    "key_facts": [
+      "Runner.run() is synchronous-style via asyncio; use asyncio.run() or await it inside an async function.",
+      "The Runner loops until the agent returns a final output or hits a max turns limit."
+    ]
+  },
+  {
+    "id": "tools",
+    "title": "Function Tools",
+    "summary": "Tools let an agent call your code to fetch data or take actions during a run. The @function_tool decorator turns a Python function into a tool, automatically generating its schema from type hints and docstrings. Tools can be plain sync/async functions and may receive the run context.",
+    "key_facts": [
+      "Use @function_tool to wrap a function; its signature and docstring become the tool schema.",
+      "Tool functions may accept a RunContextWrapper as their first argument to access shared context."
+    ]
+  },
+  {
+    "id": "handoffs",
+    "title": "Handoffs",
+    "summary": "Handoffs allow one agent to delegate control to another agent mid-conversation, enabling specialized sub-agents. You declare handoffs on an agent and the SDK will transfer execution when the model chooses that handoff. The conversation history is preserved across the transfer so the next agent has full context.",
+    "key_facts": [
+      "A handoff transfers control to another agent while keeping the conversation history.",
+      "Handoffs are declared in the agent's handoffs list and appear as selectable options to the model."
+    ]
+  },
+  {
+    "id": "guardrails",
+    "title": "Guardrails",
+    "summary": "Guardrails validate inputs and outputs to keep an agent safe and on-task. An input guardrail runs before the agent and can trip to block or reroute the run, while output guardrails check the final result. Each guardrail runs as its own agent plus a tripwire that raises when triggered.",
+    "key_facts": [
+      "Input guardrails run before the agent and can short-circuit the run via a tripwire.",
+      "Output guardrails inspect the final output and can raise on unsafe or invalid results."
+    ]
+  },
+  {
+    "id": "context",
+    "title": "Agent Context",
+    "summary": "Context is a user-defined object passed through every step of a run so tools and hooks can share state. You supply it via Runner.run(agent, input, context=...) and access it through RunContextWrapper. Context is not sent to the model; it is only for your code.",
+    "key_facts": [
+      "Context is any Python object you define and is threaded through tools and hooks via RunContextWrapper.",
+      "Context is never serialized to the model; it stays local to your application."
+    ]
+  },
+  {
+    "id": "results",
+    "title": "Agent Results",
+    "summary": "The result of a run is an RunResult containing the final output and the full list of input/output items. You read result.final_output for the agent's answer and result.new_items to inspect everything that happened. Results also expose methods to continue or extract the next input for follow-ups.",
+    "key_facts": [
+      "result.final_output holds the agent's final answer, while result.new_items holds all generated items.",
+      "You can feed result into the next run to continue a multi-turn conversation."
+    ]
+  },
+  {
+    "id": "streaming",
+    "title": "Streaming",
+    "summary": "Streaming lets you receive an agent's output incrementally instead of waiting for the full response. Use Runner.run_streamed() to get a result object you can iterate for new text and items as they arrive. This is ideal for chat UIs where responsiveness matters.",
+    "key_facts": [
+      "Runner.run_streamed() returns an object you iterate to receive deltas in real time.",
+      "Streaming still runs the full agent loop, including tools and handoffs, as events arrive."
+    ]
+  },
+  {
+    "id": "sessions",
+    "title": "Sessions",
+    "summary": "Sessions provide a managed way to keep conversation history and run state across multiple turns. They persist input/output items so you can resume a conversation without manually threading history. Sessions integrate with the Runner to simplify multi-turn application state.",
+    "key_facts": [
+      "Sessions store conversation history so you can resume without manual item threading.",
+      "They plug into the Runner to give a stable identity across multiple user turns."
+    ]
+  },
+  {
+    "id": "tracing",
+    "title": "Tracing",
+    "summary": "Tracing records every step of an agent run as spans so you can debug and observe behavior. Each LLM call, tool invocation, and handoff is captured with inputs and outputs. You can view traces in the OpenAI dashboard or disable them with set_tracing_disabled().",
+    "key_facts": [
+      "Tracing logs spans for model calls, tool runs, and handoffs automatically.",
+      "Disable it with set_tracing_disabled(True) for local or privacy-sensitive runs."
+    ]
+  },
+  {
+    "id": "models",
+    "title": "Models",
+    "summary": "Models define which LLM an agent uses and how it is called. The SDK supports OpenAI models directly and any OpenAI-compatible endpoint via OpenAIChatCompletionsModel. You can pin a model per agent or set defaults at run time.",
+    "key_facts": [
+      "Use OpenAIChatCompletionsModel to point an agent at any OpenAI-compatible API.",
+      "Models can be set per-agent or via a ModelProvider for dynamic selection."
+    ]
+  },
+  {
+    "id": "model-providers",
+    "title": "Model Providers",
+    "summary": "Model providers abstract model selection so an agent can resolve a model name at run time. This lets you swap providers or route by name without hard-coding clients. A provider returns a Model instance given a name and the current run context.",
+    "key_facts": [
+      "A ModelProvider resolves a model name to a Model instance dynamically.",
+      "Providers let you route different agents or calls to different backends by name."
+    ]
+  },
+  {
+    "id": "lifecycle",
+    "title": "Agent Lifecycle Hooks",
+    "summary": "Lifecycle hooks let you run custom code at the start and end of an agent run. You can register on_start and on_end callbacks to log, transform input, or perform cleanup. Hooks receive the run context and the relevant agent or result.",
+    "key_facts": [
+      "Hooks fire on_start and on_end of an agent run through the RunHooks interface.",
+      "Hooks are useful for logging, metrics, and modifying context before the run begins."
+    ]
+  },
+  {
+    "id": "input-output-items",
+    "title": "Input and Output Items",
+    "summary": "Runs are expressed as lists of typed items rather than raw text. Input items include messages and tool results; output items include new messages and tool calls. Working with items gives you precise control over multi-turn and multi-agent conversations.",
+    "key_facts": [
+      "Conversation state is a list of typed items, not a single string, enabling rich multi-turn flows.",
+      "Tool results are added back as items so the model can reason over them in the next step."
+    ]
+  }
+]
