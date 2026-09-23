@@ -16,3 +16,4 @@ agent = Agent(name="Assistant", instructions="Be concise.", model=model)
 
 result = Runner.run_sync(agent, "What is 2+2?")
 print(result.final_output)
+

@@ -3,7 +3,10 @@ from dotenv import load_dotenv
 from openai import AsyncOpenAI
 from agents import Agent, Runner, OpenAIChatCompletionsModel, RunConfig
 
+# Config level Logic
+
 load_dotenv()
+
 
 client = AsyncOpenAI(
     api_key=os.getenv("GEMINI_API_KEY"),
@@ -17,3 +20,5 @@ config = RunConfig(model=model)
 
 result = Runner.run_sync(agent, "What is 2+2?", run_config=config)
 print(result.final_output)
+
+
