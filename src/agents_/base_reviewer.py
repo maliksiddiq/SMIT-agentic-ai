@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from agents import Agent, Runner
+from agents import Agent, RunConfig, Runner
 from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
 from agents.run_context import RunContextWrapper
 from openai import AsyncOpenAI
@@ -80,4 +80,32 @@ async def run_base_reviewer(
         prompt,
         context=context,
         max_turns=max_turns,
+    )
+
+
+async def run_with_model_override(
+    agent: Agent[ReviewContext],
+    *,
+    settings: Settings,
+    context: ReviewContext,
+    files: list[str],
+    max_turns: int,
+):
+    """Use the fallback model for one run without mutating the agent."""
+
+    prompt = (
+        "Review these diff files using the tools, then return typed findings: "
+        + ", ".join(files)
+    )
+    return await Runner.run(
+        agent,
+        prompt,
+        context=context,
+        max_turns=max_turns,
+        run_config=RunConfig(
+            model=create_gemini_model(
+                settings,
+                model_name=settings.gemini_model_fallback,
+            )
+        ),
     )
