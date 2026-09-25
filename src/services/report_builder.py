@@ -12,6 +12,7 @@ def build_final_report(
     findings,
     *,
     metrics: list[HookMetrics] | None = None,
+    remediation_triggered: bool = False,
 ) -> FinalReport:
     footer = metrics or [
         HookMetrics(
@@ -29,6 +30,7 @@ def build_final_report(
         findings=findings,
         footer=footer,
         partial=any(result.partial for result in results),
+        remediation_triggered=remediation_triggered,
     )
 
 

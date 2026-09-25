@@ -21,6 +21,25 @@ class Settings:
     tracing_api_key: str | None
     turn_ceiling: int
     chainlit_port: int | None
+    tracing_enabled: bool = False
+
+
+_ledger_registration = True
+
+
+def register_ledger(enabled: bool = True) -> None:
+    """Central application registration point for ledger recording."""
+
+    global _ledger_registration
+    _ledger_registration = enabled
+
+
+def record_run(result, *, request_id: str) -> None:
+    if not _ledger_registration:
+        return
+    from src.runners.ledger_runner import append_ledger_entry
+
+    append_ledger_entry(result, request_id=request_id)
 
 
 def load_settings(*, require_api_key: bool = True) -> Settings:
@@ -56,4 +75,5 @@ def load_settings(*, require_api_key: bool = True) -> Settings:
         tracing_api_key=os.getenv("TRACING_API_KEY") or None,
         turn_ceiling=turn_ceiling,
         chainlit_port=chainlit_port,
+        tracing_enabled=bool(os.getenv("TRACING_API_KEY")),
     )

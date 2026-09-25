@@ -75,12 +75,29 @@ async def run_base_reviewer(
         + ", ".join(files)
         + ". Return only the typed findings list."
     )
-    return await Runner.run(
-        agent,
-        prompt,
-        context=context,
-        max_turns=max_turns,
-    )
+    active_settings = load_settings()
+    try:
+        return await Runner.run(
+            agent,
+            prompt,
+            context=context,
+            max_turns=max_turns,
+        )
+    except Exception as primary_error:
+        fallback = create_gemini_model(
+            active_settings,
+            model_name=active_settings.gemini_model_fallback,
+        )
+        try:
+            return await Runner.run(
+                agent,
+                prompt,
+                context=context,
+                max_turns=max_turns,
+                run_config=RunConfig(model=fallback),
+            )
+        except Exception:
+            raise primary_error
 
 
 async def run_with_model_override(

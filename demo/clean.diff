@@ -1,0 +1,10 @@
+diff --git a/src/example.py b/src/example.py
+index 1111111..2222222 100644
+--- a/src/example.py
++++ b/src/example.py
+@@ -1,2 +1,4 @@
+ def greet(name: str) -> str:
+-    return "hello " + name
++    if not name:
++        raise ValueError("name is required")
++    return f"hello {name}"

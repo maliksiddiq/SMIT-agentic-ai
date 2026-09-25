@@ -1,0 +1,9 @@
+diff --git a/src/auth.py b/src/auth.py
+index 1111111..2222222 100644
+--- a/src/auth.py
++++ b/src/auth.py
+@@ -1,2 +1,4 @@
+ def authenticate(user_input, db):
+-    return db.find(user_input)
++    query = "SELECT * FROM users WHERE name = '" + user_input + "'"
++    return db.execute(query)

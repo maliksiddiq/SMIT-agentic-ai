@@ -36,3 +36,13 @@ def build_merge_specialist(settings: Settings) -> Agent:
         output_type=MergedReport,
     )
 
+
+def merge_as_tool(settings: Settings):
+    """Expose MergeSpecialist through the SDK's agents-as-tools API."""
+
+    return build_merge_specialist(settings).as_tool(
+        tool_name="merge_findings",
+        tool_description=(
+            "Deduplicate reviewer findings and order them critical, major, minor."
+        ),
+    )
