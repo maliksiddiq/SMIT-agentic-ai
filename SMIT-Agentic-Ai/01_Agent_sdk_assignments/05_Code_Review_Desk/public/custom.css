@@ -1,0 +1,82 @@
+:root {
+  --crd-accent: #6d5dfc;
+  --crd-accent-soft: rgba(109, 93, 252, 0.12);
+  --crd-border: rgba(127, 127, 127, 0.2);
+}
+
+body {
+  letter-spacing: 0.01em;
+}
+
+main {
+  max-width: 980px;
+}
+
+main p {
+  line-height: 1.65;
+}
+
+header h1,
+main h1,
+main h2,
+main h3 {
+  letter-spacing: -0.02em;
+}
+
+main h1 {
+  margin-bottom: 0.8rem;
+}
+
+main h2 {
+  border-bottom: 1px solid var(--crd-border);
+  padding-bottom: 0.45rem;
+}
+
+main h3 {
+  margin-top: 1.4rem;
+  color: var(--crd-accent);
+}
+
+main hr {
+  border-color: var(--crd-border);
+  margin: 1.6rem 0;
+}
+
+blockquote {
+  border-left: 3px solid var(--crd-accent) !important;
+  background: var(--crd-accent-soft);
+  border-radius: 0 8px 8px 0;
+  padding: 0.7rem 1rem !important;
+}
+
+pre {
+  border: 1px solid var(--crd-border);
+  border-radius: 10px;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--crd-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th {
+  background: var(--crd-accent-soft);
+}
+
+th,
+td {
+  padding: 0.65rem 0.85rem !important;
+}
+
+code {
+  border-radius: 5px;
+}
+
+textarea {
+  border-radius: 12px !important;
+  min-height: 72px !important;
+  padding: 0.85rem 1rem !important;
+}

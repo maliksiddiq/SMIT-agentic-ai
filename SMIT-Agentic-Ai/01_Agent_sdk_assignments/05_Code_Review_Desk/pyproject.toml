@@ -1,0 +1,21 @@
+[project]
+name = "code-review-desk"
+version = "0.1.0"
+description = "Concurrent, guarded AI code review pipeline."
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "chainlit",
+    "google-genai",
+    "openai-agents",
+    "pydantic",
+    "python-dotenv",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
